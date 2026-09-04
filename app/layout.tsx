@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/components/Providers/Providers"; // або шлях до твого файлу провайдерів
+import Footer from "@/components/Footer/Footer";
+import Header from "@/components/Header/Header";
 
 export const metadata: Metadata = {
   title: "NoteHub",
@@ -17,7 +19,9 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
     <html lang="en">
       <body>
         <Providers>
-          {children}
+          <Header />
+          <main>{children}</main>
+          <Footer />
           {modal}
         </Providers>
       </body>
