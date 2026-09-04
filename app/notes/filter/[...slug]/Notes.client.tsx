@@ -13,15 +13,19 @@ import Loader from "@/components/Loader/Loader";
 import ErrorMessage from "@/components/ErrorMessage/ErrorMessage";
 import css from "./NotesPage.module.css";
 
-export default function NotesClient() {
+interface NotesClientProps {
+  tag: string;
+}
+
+export default function NotesClient({ tag }: NotesClientProps) {
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["notes", page, search],
-    queryFn: () => fetchNotes(page, search),
+    queryKey: ["notes", page, search, tag],
+    queryFn: () => fetchNotes(page, search, tag),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });

@@ -15,18 +15,23 @@ const api = axios.create({
   },
 });
 
-// 3. Запит на отримання списку нотаток (з пагінацією та пошуком)
+// 3. Запит на отримання списку нотаток (з пагінацією, пошуком та тегом)
 export const fetchNotes = async (
   page: number = 1,
   search: string = "",
+  tag: string = "",
 ): Promise<FetchNotesResponse> => {
-  const response = await api.get<FetchNotesResponse>("/notes", {
-    params: {
-      page,
-      perPage: 12,
-      search,
-    },
-  });
+  const params: Record<string, string | number> = {
+    page,
+    perPage: 12,
+    search,
+  };
+
+  if (tag && tag.toLowerCase() !== "all") {
+    params.tag = tag;
+  }
+
+  const response = await api.get<FetchNotesResponse>("/notes", { params });
   return response.data;
 };
 
