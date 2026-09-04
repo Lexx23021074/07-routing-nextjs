@@ -22,6 +22,7 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
   } = useQuery({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
+    refetchOnMount: false,
   });
 
   const handleClose = () => {
@@ -34,6 +35,14 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
       onClose={handleClose}
     >
       <div className={css.content}>
+        <button
+          onClick={handleClose}
+          className={css.closeButton}
+          aria-label="Close modal"
+        >
+          &times;
+        </button>
+
         {isLoading && <Loader />}
         {isError && <ErrorMessage />}
         {note && (
@@ -41,6 +50,11 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
             <h2 className={css.title}>{note.title}</h2>
             <p className={css.text}>{note.content}</p>
             <span className={css.tag}>{note.tag}</span>
+            {note.createdAt && (
+              <p className={css.date}>
+                {new Date(note.createdAt).toLocaleDateString()}
+              </p>
+            )}
           </>
         )}
       </div>
